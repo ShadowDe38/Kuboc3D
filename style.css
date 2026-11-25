@@ -1,0 +1,362 @@
+/* ============================================
+   CSS-переменные (тема)
+   ============================================ */
+:root {
+    --primary-color: #d4af37;
+    --text-muted: #a0a0a0;
+    --text-faint: #666;
+    --bg-dark: #0a0a0a;
+    --bg-card: #111;
+    --border-color: #222;
+}
+
+/* ============================================
+   Базовые стили
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: var(--bg-dark);
+    color: #fff;
+    line-height: 1.6;
+}
+
+/* ============================================
+   Утилитарные классы (Layout)
+   ============================================ */
+.relative { position: relative; }
+.isolate { isolation: isolate; }
+.overflow-hidden { overflow: hidden; }
+
+.pt-32 { padding-top: 8rem; }
+.pb-16 { padding-bottom: 4rem; }
+.mt-6 { margin-top: 1.5rem; }
+.mt-9 { margin-top: 2.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mr-2 { margin-right: 0.5rem; }
+
+.wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.grid {
+    display: grid;
+}
+.gap-10 { gap: 2.5rem; }
+.gap-4 { gap: 1rem; }
+.gap-3 { gap: 0.75rem; }
+
+.flex { display: flex; }
+.flex-wrap { flex-wrap: wrap; }
+
+.text-lg { font-size: 1.125rem; }
+.text-sm { font-size: 0.875rem; }
+.text-xs { font-size: 0.75rem; }
+.text-2xl { font-size: 1.5rem; }
+
+.leading-8 { line-height: 2rem; }
+.leading-7 { line-height: 1.75rem; }
+.leading-6 { line-height: 1.5rem; }
+
+.font-bold { font-weight: 700; }
+.uppercase { text-transform: uppercase; }
+.tracking-\[0\.22em\] { letter-spacing: 0.22em; }
+
+.max-w-xl { max-width: 36rem; }
+.measure { max-width: 42rem; }
+
+/* Адаптивность для lg: */
+@media (min-width: 1024px) {
+    .lg\:pt-40 { padding-top: 10rem; }
+    .lg\:grid-cols-\[1\.15fr_0\.85fr\] {
+        grid-template-columns: 1.15fr 0.85fr;
+    }
+    .lg\:items-center { align-items: center; }
+}
+
+/* ============================================
+   Компоненты: Текст и заголовки
+   ============================================ */
+h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--primary-color);
+}
+
+.text-gold-italic {
+    color: var(--primary-color);
+    font-style: italic;
+}
+
+.text-\[var\(--text-muted\)\] { color: var(--text-muted); }
+.text-\[var\(--text-faint\)\] { color: var(--text-faint); }
+.text-\[var\(--primary-color\)\] { color: var(--primary-color); }
+
+/* ============================================
+   Компоненты: Кнопки
+   ============================================ */
+.btn-gold,
+.btn-outline {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.btn-gold {
+    background: var(--primary-color);
+    color: #000;
+}
+
+.btn-gold:hover {
+    background: #e5c14a;
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline:hover {
+    background: var(--primary-color);
+    color: #000;
+}
+
+/* ============================================
+   Компоненты: Project Badge
+   ============================================ */
+.project-badge {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 2rem;
+}
+
+.project-badge img {
+    width: 64px;
+    height: 64px;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* ============================================
+   Компоненты: Model Card
+   ============================================ */
+.model-card {
+    margin-top: 3rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.model-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.model-tabs {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.model-tab {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.model-tab:hover {
+    color: #fff;
+}
+
+.model-tab.is-active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.model-badge {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--primary-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.model-stage {
+    position: relative;
+    padding: 1.5rem;
+}
+
+.model-viewer {
+    width: 100%;
+    height: 500px;
+    background: #000;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+}
+
+.model-controls,
+.model-anim-controls {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 10;
+}
+
+.model-anim-controls {
+    top: auto;
+    bottom: 5rem;
+    right: 2rem;
+}
+
+.ctrl-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--border-color);
+    color: #fff;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+}
+
+.ctrl-btn:hover {
+    background: var(--primary-color);
+    color: #000;
+    border-color: var(--primary-color);
+}
+
+.model-hint {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: var(--text-faint);
+}
+
+.model-fallback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 2rem;
+    border-radius: 0.75rem;
+}
+
+.model-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.model-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.model-status .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4ade80;
+}
+
+.model-status.is-ready .dot {
+    background: #4ade80;
+}
+
+/* ============================================
+   Утилиты: Скрытие
+   ============================================ */
+.is-hidden {
+    display: none !important;
+}
+
+/* ============================================
+   Декоративные элементы
+   ============================================ */
+.hero-glow,
+.model-glow {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.hero-glow {
+    top: -200px;
+    right: -200px;
+}
+
+.model-glow {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.model-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: -1;
+}

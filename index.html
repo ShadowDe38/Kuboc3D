@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Спортивные кубки · 3D-экспозиция</title>
+    
+    <!-- Подключение FontAwesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Подключение model-viewer -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+    
+    <style>
+        /* Базовые стили для скрытия элементов и общих классов из вашего кода */
+        .is-hidden { display: none !important; }
+        .text-gold-italic { color: #d4af37; font-style: italic; }
+        .btn-gold, .btn-outline { padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-gold { background: #d4af37; color: #000; }
+        .btn-outline { border: 1px solid #d4af37; color: #d4af37; }
+        .model-viewer { width: 100%; height: 400px; background: #111; border-radius: 12px; }
+        .ctrl-btn { background: #222; border: 1px solid #444; color: #fff; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+        .model-tab { background: transparent; border: none; color: #888; cursor: pointer; padding: 8px 16px; }
+        .model-tab.is-active { color: #d4af37; border-bottom: 2px solid #d4af37; }
+    </style>
+</head>
+<body>
+
+<section id="model" class="relative isolate overflow-hidden pt-32 pb-16 lg:pt-40" data-twig-section="sections/index.hero.html">
+    <div class="hero-glow" aria-hidden="true" data-twig-section="sections/index.hero.html"></div>
+    <div class="wrap" data-twig-section="sections/index.hero.html">
+        <div class="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center" data-twig-section="sections/index.hero.html">
+            
+            <!-- Левая колонка: Текст -->
+            <div data-twig-section="sections/index.hero.html">
+                <p class="eyebrow" data-twig-section="sections/index.hero.html">Интерактивная выставка · 3D-экспозиция</p>
+                <h1 class="mt-6" data-twig-section="sections/index.hero.html">
+                    Спортивные <span class="text-gold-italic" data-twig-section="sections/index.hero.html">кубки</span>
+                </h1>
+                <p class="measure mt-6 text-lg leading-8 text-[var(--text-muted)]" data-twig-section="sections/index.hero.html">
+                    Рассмотрите форму награды со всех сторон: вращайте модель, приближайте детали и переключайтесь между статичной версией кубка и анимированной, чтобы увидеть, как оживают гравировка и металл.
+                </p>
+                <div class="mt-9 flex flex-wrap gap-4" data-twig-section="sections/index.hero.html">
+                    <a href="#model" class="btn-gold" data-twig-section="sections/index.hero.html">
+                        <i class="fa-solid fa-cube" aria-hidden="true"></i> Открыть 3D-просмотрщик
+                    </a>
+                    <a href="#gallery" class="btn-outline" data-twig-section="sections/index.hero.html">Перейти к галерее</a>
+                </div>
+            </div>
+
+            <!-- Правая колонка: Бейдж проекта -->
+            <div class="project-badge" data-twig-section="sections/index.hero.html">
+                <img alt="Логотип специальности" sizes="64px" 
+                     src="https://files.cdn-files-a.com/uploads/12706115/100_6b069144b72ff.png?ratio=1:1&format=avif" 
+                     data-twig-section="sections/index.hero.html">
+                <p class="text-xs font-bold uppercase tracking-[0.22em] text-[var(--primary-color)]" data-twig-section="sections/index.hero.html">Учебный проект</p>
+                <p class="text-sm leading-7 text-[var(--text-muted)]" data-twig-section="sections/index.hero.html">
+                    Специальность «Информационные системы и программирование»<br>
+                    Сделал: Болтенков Денис Павлович
+                </p>
+                <p class="text-xs leading-6 text-[var(--text-faint)]" data-twig-section="sections/index.hero.html">
+                    Цель работы — показать, как спортивный трофей превращается в объект цифровой экспозиции.
+                </p>
+            </div>
+        </div>
+
+        <!-- Карточка 3D-модели -->
+        <div class="model-card" data-twig-section="sections/index.hero.html">
+            <div class="model-toolbar" data-twig-section="sections/index.hero.html">
+                <div class="model-tabs" role="tablist" aria-label="Выбор 3D-модели кубка">
+                    <button type="button" class="model-tab is-active" role="tab" aria-selected="true" data-tab="trophy1">
+                        <i class="fa-solid fa-trophy mr-2" aria-hidden="true"></i>Кубок I · классика
+                    </button>
+                    <button type="button" class="model-tab" role="tab" aria-selected="false" data-tab="trophy2">
+                        <i class="fa-solid fa-cube mr-2" aria-hidden="true"></i>Кубок II · анимация
+                    </button>
+                </div>
+                <span class="model-badge" id="modelBadge">3D · GLB</span>
+            </div>
+
+            <div class="model-stage" id="modelStage">
+                <model-viewer id="trophyViewer" class="model-viewer" 
+                              src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+                              alt="Интерактивная 3D-модель спортивного кубка" 
+                              camera-controls touch-action="pan-y" 
+                              loading="eager" 
+                              camera-orbit="35deg 75deg 105%" 
+                              min-field-of-view="20deg" max-field-of-view="45deg" 
+                              shadow-intensity="1" exposure="1.1" 
+                              environment-image="neutral" interaction-prompt="none">
+                </model-viewer>
+
+                <!-- Управление камерой -->
+                <div class="model-controls" role="group" aria-label="Управление камерой">
+                    <button type="button" class="ctrl-btn" id="camReset" aria-label="Сбросить вид"><i class="fa-solid fa-arrows-rotate"></i></button>
+                    <button type="button" class="ctrl-btn" id="camRotate" aria-label="Авто-вращение" aria-pressed="false"><i class="fa-solid fa-arrows-spin"></i></button>
+                    <button type="button" class="ctrl-btn" id="camZoomIn" aria-label="Приблизить"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                    <button type="button" class="ctrl-btn" id="camZoomOut" aria-label="Отдалить"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                </div>
+
+                <!-- Управление анимацией -->
+                <div class="model-anim-controls is-hidden" id="animControls" role="group" aria-label="Управление анимацией">
+                    <button type="button" class="ctrl-btn" id="animToggle" aria-label="Воспроизвести анимацию" aria-pressed="false"><i class="fa-solid fa-play"></i></button>
+                    <button type="button" class="ctrl-btn" id="animReplay" aria-label="Перезапустить анимацию"><i class="fa-solid fa-repeat"></i></button>
+                </div>
+
+                <p class="model-hint"><i class="fa-solid fa-hand-pointer"></i> Тяните для вращения · щипок/колёсико для масштаба · двойной клик для сброса</p>
+                
+                <div class="model-fallback is-hidden" id="modelFallback" role="status">
+                    <i class="fa-solid fa-triangle-exclamation text-2xl text-[var(--primary-color)]"></i>
+                    <p>Модель временно недоступна. Проверьте интернет.</p>
+                </div>
+            </div>
+
+            <div class="model-footer">
+                <div class="max-w-xl">
+                    <h2 id="modelName" class="h3" aria-live="polite">Кубок I · классическая чаша</h2>
+                    <p class="mt-2 text-sm leading-6 text-[var(--text-muted)]">Статичная и анимированная версии подгружаются отдельно — файл .glb легко заменить на собственный.</p>
+                    <p class="model-status mt-3 is-ready" id="modelStatus">
+                        <span class="dot"></span><span id="modelStatusText">Модель готова</span>
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <a id="modelDownloadStatic" href="https://modelviewer.dev/shared-assets/models/Astronaut.glb" class="btn-outline" target="_blank" rel="noopener">
+                        <i class="fa-solid fa-download"></i> Скачать кубок I
+                    </a>
+                    <a id="modelDownloadAnim" href="https://modelviewer.dev/shared-assets/models/RobotExpressive.glb" class="btn-outline" target="_blank" rel="noopener">
+                        <i class="fa-solid fa-download"></i> Скачать кубок II
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Подключение вашего JS файла -->
+<script src="script.js" defer></script>
+
+</body>
+</html>
