@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Трофейный зал · Интерактивная выставка</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #d4af37;
+            --primary-hover: #e5c14a;
+            --bg: #0a0e14;
+            --bg-card: #151a23;
+            --bg-card-2: #1a2030;
+            --border: #2a3142;
+            --text: #ffffff;
+            --text-muted: #8b95a8;
+            --text-faint: #5a6478;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ===== НАВИГАЦИЯ ===== */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(10, 14, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, var(--primary), #b8941f);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #000;
+        }
+
+        .logo-text h2 {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .logo-text p {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover { color: var(--text); }
+
+        .nav-link-active {
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 0.6rem 1.5rem;
+            border-radius: 2rem;
+        }
+
+        .nav-link-active:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* ===== ОБЩИЕ СТИЛИ СЕКЦИЙ ===== */
+        .eyebrow {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .eyebrow i { font-size: 0.6rem; }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .section-subtitle {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin-bottom: 4rem;
+        }
+
+        /* ===== HERO СЕКЦИЯ ===== */
+        .hero-section {
+            position: relative;
+            padding: 8rem 0 4rem;
+            overflow: hidden;
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px; height: 600px;
+            background: radial-gradient(ellipse, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+        }
+
+        .text-gold-italic {
+            color: var(--primary);
+            font-style: italic;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-gold, .btn-outline {
+            padding: 1rem 2rem;
+            border-radius: 3rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--primary), #b8941f);
+            color: #000;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-outline {
+            border-color: var(--border);
+            color: var(--text);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* ===== PROJECT BADGE ===== */
+        .project-badge {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+        }
+
+        .project-badge img {
+            width: 72px; height: 72px;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .badge-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .badge-description {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-faint);
+        }
+
+        /* ===== MODEL CARD ===== */
+        .model-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+
+        .model-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 2rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-card-2);
+        }
+
+        .model-tabs {
+            display: flex;
+            gap: 0.25rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.4rem;
+            border-radius: 3rem;
+        }
+
+        .model-tab {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.7rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 2rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-body);
+        }
+
+        .model-tab:hover { color: var(--text); }
+
+        .model-tab.is-active {
+            background: linear-gradient(135deg, var(--primary), #b8941f);
+            color: #000;
+        }
+
+        .model-badge-label {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--primary);
+            padding: 0.5rem 1.25rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .model-stage {
+            position: relative;
+            padding: 2rem;
+            min-height: 600px;
+            background: #ffffff;
+        }
+
+        .model-viewer {
+            width: 100%;
+            height: 550px;
+            background: #ffffff;
+            border-radius: 1rem;
+        }
+
+        .model-video {
+            width: 100%;
+            height: 550px;
+            background: #ffffff;
+            border-radius: 1rem;
+            object-fit: contain;
+            display: none;
+        }
+
+        .model-video.is-visible {
+            display: block;
+        }
+
+        .model-viewer.is-hidden-video {
+            display: none;
+        }
+
+        .model-controls {
+            position: absolute;
+            top: 3rem; right: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .model-anim-controls {
+            position: absolute;
+            bottom: 5rem; right: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .ctrl-btn {
+            width: 48px; height: 48px;
+            background: rgba(21, 26, 35, 0.95);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            font-size: 1.1rem;
+        }
+
+        .ctrl-btn:hover {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .ctrl-btn.is-playing {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+        }
+
+        .model-hint {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            backdrop-filter: blur(10px);
+        }
+
+        .model-fallback {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .model-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            gap: 2rem;
+            flex-wrap: wrap;
+            background: var(--bg-card-2);
+        }
+
+        .model-info h2 {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .model-description {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            max-width: 500px;
+        }
+
+        .model-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .status-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #4ade80;
+        }
+
+        .model-downloads {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* ===== ИСТОРИЯ СЕКЦИЯ ===== */
+        .history-section { padding: 6rem 0; }
+
+        .history-layout {
+            display: grid;
+            grid-template-columns: 1fr 0.8fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .history-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            transition: all 0.3s;
+        }
+
+        .timeline-item:hover {
+            border-color: var(--primary);
+            transform: translateX(10px);
+        }
+
+        .timeline-icon {
+            width: 56px; height: 56px;
+            min-width: 56px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+
+        .timeline-content { flex: 1; }
+
+        .timeline-era {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content h3 {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .timeline-content p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        .history-visual {
+            position: sticky;
+            top: 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .history-image {
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .history-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .history-caption {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .history-quote {
+            background: var(--bg-card);
+            border-left: 3px solid var(--primary);
+            border-radius: 0 1rem 1rem 0;
+            padding: 2rem;
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        /* ===== ИЗГОТОВЛЕНИЕ СЕКЦИЯ ===== */
+        .manufacturing-section {
+            padding: 6rem 0;
+            background: var(--bg-card-2);
+        }
+
+        .stages-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stage-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .stage-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .stage-icon {
+            width: 56px; height: 56px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .stage-number {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .stage-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .stage-card p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        .materials-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+        }
+
+        .materials-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .materials-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .materials-table th {
+            text-align: left;
+            padding: 1rem 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--primary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .materials-table td {
+            padding: 1.25rem 1.5rem;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .materials-table tr:last-child td { border-bottom: none; }
+        .materials-table tr:hover td { background: rgba(212, 175, 55, 0.05); }
+
+        /* ===== ГАЛЕРЕЯ СЕКЦИЯ ===== */
+        .gallery-section { padding: 6rem 0; }
+
+        .gallery-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: end;
+            margin-bottom: 4rem;
+        }
+
+        .gallery-tabs {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .gallery-tab {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.85rem 1.75rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-family: var(--font-body);
+        }
+
+        .gallery-tab:hover {
+            color: var(--text);
+            border-color: var(--primary);
+        }
+
+        .gallery-tab.is-active {
+            background: linear-gradient(135deg, var(--primary), #b8941f);
+            color: #000;
+            border-color: var(--primary);
+        }
+
+        .gallery-featured {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .gallery-card-large {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            transition: all 0.3s;
+        }
+
+        .gallery-card-large:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .gallery-card-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-height: 400px;
+        }
+
+        .gallery-card-large .card-content {
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .gallery-card-side {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .gallery-card-side:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .gallery-card-side img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .gallery-card-side .card-content {
+            padding: 2rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .gallery-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .gallery-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .gallery-card .card-content {
+            padding: 1.75rem;
+        }
+
+        .card-category {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-content h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .card-content p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        /* ===== О ПРОЕКТЕ СЕКЦИЯ ===== */
+        .about-section {
+            padding: 6rem 0;
+            background: var(--bg-card-2);
+        }
+
+        .about-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .about-content p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .about-feature {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.75rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .about-feature-icon {
+            width: 40px; height: 40px;
+            min-width: 40px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .about-feature p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .about-visual {
+            position: relative;
+        }
+
+        .about-image {
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: #2a2a2a;
+            margin-bottom: 1rem;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .about-image-caption {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ===== ДИСЦИПЛИНЫ ===== */
+        .disciplines-section { padding: 6rem 0; }
+
+        .disciplines-stats {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .stat-chip {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 2rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-chip i { color: var(--primary); }
+        .stat-chip strong { color: var(--text); }
+
+        .disciplines-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 5rem;
+        }
+
+        .discipline-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .discipline-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .discipline-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .discipline-card:hover::before { opacity: 1; }
+
+        .discipline-icon {
+            width: 52px; height: 52px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1.25rem;
+        }
+
+        .discipline-category {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--primary);
+            padding: 0.35rem 0.9rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .discipline-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .discipline-card p {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        .photos-title {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .disciplines-photos {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .discipline-photo {
+            border-radius: 1.25rem;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            aspect-ratio: 4 / 3;
+            position: relative;
+            background: var(--bg-card);
+            margin: 0;
+        }
+
+        .discipline-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s;
+        }
+
+        .discipline-photo:hover img { transform: scale(1.05); }
+
+        .discipline-photo figcaption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 2rem 1.25rem 1rem;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ===== УТИЛИТЫ ===== */
+        .is-hidden { display: none !important; }
+
+        /* ===== АДАПТИВНОСТЬ ===== */
+        @media (max-width: 1024px) {
+            .hero-grid,
+            .history-layout,
+            .about-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title { font-size: 3rem; }
+            .section-title { font-size: 2.5rem; }
+            .stages-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-featured { grid-template-columns: 1fr; }
+            .gallery-card-large { grid-template-columns: 1fr; }
+            .gallery-header { grid-template-columns: 1fr; }
+            .disciplines-grid { grid-template-columns: repeat(2, 1fr); }
+            .disciplines-photos { grid-template-columns: repeat(2, 1fr); }
+
+            .history-visual {
+                position: static;
+                margin-top: 3rem;
+            }
+
+            .about-features { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%; left: 0; right: 0;
+                background: var(--bg-card);
+                flex-direction: column;
+                padding: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-menu.active { display: flex; }
+            .nav-toggle { display: flex; align-items: center; justify-content: center; }
+
+            .hero-title { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            .about-content h2 { font-size: 2rem; }
+
+            .model-controls,
+            .model-anim-controls {
+                top: auto; bottom: 5rem; right: 2rem;
+                flex-direction: row;
+            }
+
+            .model-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .gallery-grid { grid-template-columns: 1fr; }
+            .disciplines-grid { grid-template-columns: 1fr; }
+            .disciplines-photos { grid-template-columns: 1fr; }
+            .materials-table { font-size: 0.85rem; }
+            .materials-table th,
+            .materials-table td { padding: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- НАВИГАЦИЯ -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="#" class="nav-logo">
+            <div class="logo-icon"><i class="fa-solid fa-trophy"></i></div>
+            <div class="logo-text">
+                <h2>Трофейный зал</h2>
+                <p>ИНТЕРАКТИВНАЯ ВЫСТАВКА</p>
+            </div>
+        </a>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="#model" class="nav-link">3D-модель</a></li>
+            <li><a href="#history" class="nav-link">История</a></li>
+            <li><a href="#manufacturing" class="nav-link">Изготовление</a></li>
+            <li><a href="#gallery" class="nav-link">Галерея</a></li>
+            <li><a href="#disciplines" class="nav-link">Дисциплины</a></li>
+            <li><a href="#about" class="nav-link nav-link-active">О проекте</a></li>
+        </ul>
+        <button class="nav-toggle" id="navToggle" aria-label="Меню">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- HERO СЕКЦИЯ -->
+<section id="model" class="hero-section">
+    <div class="hero-glow"></div>
+    <div class="container">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <p class="eyebrow"><i class="fa-solid fa-diamond"></i> ИНТЕРАКТИВНАЯ ВЫСТАВКА · 3D-ЭКСПОЗИЦИЯ</p>
+                <h1 class="hero-title">Спортивные <span class="text-gold-italic">кубки</span></h1>
+                <p class="hero-description">Рассмотрите форму награды со всех сторон: вращайте модель, приближайте детали и переключайтесь между статичной версией кубка и анимированной, чтобы увидеть, как оживают гравировка и металл.</p>
+                <div class="hero-buttons">
+                    <a href="#model" class="btn-gold"><i class="fa-solid fa-cube"></i> Открыть 3D-просмотрщик</a>
+                    <a href="#gallery" class="btn-outline">Перейти к галерее</a>
+                </div>
+            </div>
+            <div class="project-badge">
+                <img src="https://files.cdn-files-a.com/uploads/12706115/100_6b069144b72ff.png?ratio=1:1&format=avif" alt="Логотип">
+                <p class="badge-label">УЧЕБНЫЙ ПРОЕКТ</p>
+                <p class="badge-text">Специальность «Информационные системы и программирование»<br>Сделал: Болтенков Денис Павлович</p>
+                <p class="badge-description">Цель работы — показать, как спортивный трофей превращается в объект цифровой экспозиции.</p>
+            </div>
+        </div>
+
+        <div class="model-card">
+            <div class="model-toolbar">
+                <div class="model-tabs" role="tablist">
+                    <button type="button" class="model-tab is-active" data-tab="trophy1"><i class="fa-solid fa-trophy"></i> Модель кубка</button>
+                    <button type="button" class="model-tab" data-tab="trophy2"><i class="fa-solid fa-cube"></i> Анимация кубка</button>
+                </div>
+                <span class="model-badge-label">3D · GLB</span>
+            </div>
+            <div class="model-stage">
+                <model-viewer id="trophyViewer" class="model-viewer" 
+                              src="./foto/кубок 2.0.glb" 
+                              alt="3D-модель кубка" camera-controls touch-action="pan-y" loading="eager" 
+                              camera-orbit="35deg 75deg 105%" min-field-of-view="20deg" max-field-of-view="45deg" 
+                              shadow-intensity="1" exposure="1.1" environment-image="neutral" interaction-prompt="none">
+                </model-viewer>
+                <video id="trophyVideo" class="model-video" src="./foto/vid.mp4" loop muted playsinline></video>
+                <div class="model-controls">
+                    <button type="button" class="ctrl-btn" id="camReset"><i class="fa-solid fa-arrows-rotate"></i></button>
+                    <button type="button" class="ctrl-btn" id="camRotate"><i class="fa-solid fa-arrows-spin"></i></button>
+                    <button type="button" class="ctrl-btn" id="camZoomIn"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                    <button type="button" class="ctrl-btn" id="camZoomOut"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                </div>
+                <div class="model-anim-controls is-hidden" id="animControls">
+                    <button type="button" class="ctrl-btn" id="animToggle" aria-pressed="false">
+                        <i class="fa-solid fa-play" id="animIcon"></i>
+                    </button>
+                    <button type="button" class="ctrl-btn" id="animStop" aria-label="Выключить анимацию">
+                        <i class="fa-solid fa-power-off"></i>
+                    </button>
+                </div>
+                <p class="model-hint"><i class="fa-solid fa-hand-pointer"></i> Тяните для вращения · щипок/колёсико для масштаба · двойной клик для сброса</p>
+                <div class="model-fallback is-hidden" id="modelFallback">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p>Модель временно недоступна.</p>
+                </div>
+            </div>
+            <div class="model-footer">
+                <div class="model-info">
+                    <h2 id="modelName">Модель кубка</h2>
+                    <p class="model-description">
+                        Статичная модель и анимация подгружаются отдельно — файлы легко заменить на собственные.
+                    </p>
+                    <p class="model-status"><span class="status-dot"></span><span id="modelStatusText">Модель готова</span></p>
+                </div>
+                <div class="model-downloads">
+                    <a href="./foto/кубок 2.0.blend" class="btn-outline" target="_blank" rel="noopener">
+                        <i class="fa-solid fa-download"></i> Скачать модель (.blend)
+                    </a>
+                    <a href="./foto/кубок 2.0.obj" class="btn-outline" target="_blank" rel="noopener">
+                        <i class="fa-solid fa-download"></i> Скачать модель (.obj)
+                    </a>
+                    <a href="./foto/for_кубок2.0.blend" class="btn-outline" target="_blank" rel="noopener">
+                        <i class="fa-solid fa-download"></i> Скачать анимацию (.blend)
+                    </a>
+                    <a href="./foto/for_кубок2.0.obj" class="btn-outline" target="_blank" rel="noopener">
+                        <i class="fa-solid fa-download"></i> Скачать анимацию (.obj)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ИСТОРИЯ СЕКЦИЯ -->
+<section id="history" class="history-section">
+    <div class="container">
+        <p class="eyebrow"><i class="fa-solid fa-diamond"></i> ИСТОРИЯ</p>
+        <h2 class="section-title">История спортивных кубков</h2>
+        <p class="section-subtitle">Форма трофея менялась вместе с представлениями о славе — от античных сосудов и венков до современных переходящих кубков и цифровых моделей.</p>
+
+        <div class="history-layout">
+            <div class="history-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-icon"><i class="fa-solid fa-leaf"></i></div>
+                    <div class="timeline-content">
+                        <p class="timeline-era">АНТИЧНОСТЬ</p>
+                        <h3>Амфоры и венки победителей</h3>
+                        <p>Победителей древних игр награждали расписными амфорами с оливковым маслом и лавровыми венками — первый в истории прообраз спортивной награды.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon"><i class="fa-solid fa-gem"></i></div>
+                    <div class="timeline-content">
+                        <p class="timeline-era">XVIII-XIX ВЕКА</p>
+                        <h3>Серебряные и позолоченные чаши</h3>
+                        <p>Рыцарские турниры и цеховые состязания получили массивные серебряные кубки с ручками, резьбой и гравированными табличками для имён.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon"><i class="fa-solid fa-trophy"></i></div>
+                    <div class="timeline-content">
+                        <p class="timeline-era">XX ВЕК</p>
+                        <h3>Переходящие кубки и мировые трофеи</h3>
+                        <p>Спорт становится глобальным, а награды — узнаваемыми: золото, литьё по восковой модели и точная гравировка имён чемпионов.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon"><i class="fa-solid fa-cube"></i></div>
+                    <div class="timeline-content">
+                        <p class="timeline-era">СОВРЕМЕННОСТЬ</p>
+                        <h3>Цифровые 3D-модели и параметрический дизайн</h3>
+                        <p>Сегодня трофеи проектируют в 3D: строят геометрию, настраивают материалы и презентуют награду как интерактивную модель.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="history-visual">
+                <div class="history-image">
+                    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&auto=format&fit=crop" 
+                         alt="Серебряный кубок"
+                         onerror="this.src='https://picsum.photos/seed/cup1/800/600'">
+                </div>
+                <div class="history-caption">
+                    Серебряный кубок XVIII–XIX века с гравированными табличками — прообраз современных переходящих трофеев.
+                </div>
+                <div class="history-quote">
+                    «Трофей — это не только металл. Это память о моменте, когда команда доказала, что способна на большее.»
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ИЗГОТОВЛЕНИЕ СЕКЦИЯ -->
+<section id="manufacturing" class="manufacturing-section">
+    <div class="container">
+        <p class="eyebrow"><i class="fa-solid fa-diamond"></i> ИЗГОТОВЛЕНИЕ</p>
+        <h2 class="section-title">Как создаётся кубок</h2>
+        <p class="section-subtitle">Каждый трофей проходит путь от цифрового макета до анимированной презентации: геометрия, материалы и постановка движения.</p>
+
+        <div class="stages-grid">
+            <div class="stage-card">
+                <div class="stage-icon"><i class="fa-solid fa-cube"></i></div>
+                <p class="stage-number">ЭТАП 01</p>
+                <h3>3D-моделирование и пропорции</h3>
+                <p>Построение геометрии чаши, ручек, постамента и фасок, проверка симметрии и толщины стенок.</p>
+            </div>
+            <div class="stage-card">
+                <div class="stage-icon"><i class="fa-solid fa-gem"></i></div>
+                <p class="stage-number">ЭТАП 02</p>
+                <h3>Материалы и фактуры</h3>
+                <p>Латунь, серебро, патинированная бронза, мрамор или акрил для основания; настройка металличности, шероховатости и бликов (PBR).</p>
+            </div>
+            <div class="stage-card">
+                <div class="stage-icon"><i class="fa-solid fa-film"></i></div>
+                <p class="stage-number">ЭТАП 03</p>
+                <h3>Анимация и презентация</h3>
+                <p>Постановка движения, акценты на деталях и гравировке для эффектной цифровой демонстрации награды.</p>
+            </div>
+        </div>
+
+        <div class="materials-card">
+            <h3>Сравнение материалов и отделки</h3>
+            <table class="materials-table">
+                <thead>
+                    <tr>
+                        <th>Основание</th>
+                        <th>Корпус</th>
+                        <th>Отделка</th>
+                        <th>Характер</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Мрамор</td><td>Серебро</td><td>Глянец</td><td>Тяжёлый классический</td></tr>
+                    <tr><td>Акрил</td><td>Латунь</td><td>Матовая</td><td>Современный лёгкий</td></tr>
+                    <tr><td>Камень</td><td>Патинированная бронза</td><td>Полировка</td><td>Античный музейный</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ГАЛЕРЕЯ СЕКЦИЯ -->
+<section id="gallery" class="gallery-section">
+    <div class="container">
+        <div class="gallery-header">
+            <div>
+                <p class="eyebrow"><i class="fa-solid fa-diamond"></i> ГАЛЕРЕЯ</p>
+                <h2 class="section-title">Галерея образов и трофеев</h2>
+                <p class="section-subtitle" style="margin-bottom: 0;">Классические серебряные чаши, современные чемпионские кубки и детали формы. Выберите категорию, чтобы отфильтровать карточки.</p>
+            </div>
+            <div class="gallery-tabs">
+                <button class="gallery-tab is-active" data-filter="all">Все</button>
+                <button class="gallery-tab" data-filter="classic">Классика</button>
+                <button class="gallery-tab" data-filter="modern">Современные</button>
+                <button class="gallery-tab" data-filter="details">Детали и формы</button>
+            </div>
+        </div>
+
+        <div class="gallery-featured">
+            <div class="gallery-card-large" data-category="modern">
+                <img src="./foto/i (5).webp" alt="Кубок чемпиона Формулы-1">
+                <div class="card-content">
+                    <span class="card-category">СОВРЕМЕННЫЕ</span>
+                    <h3>Кубок чемпиона Формулы-1</h3>
+                    <p>Командный трофей сезона автоспорта: вручается коллективу, чьи пилоты набрали больше очков. Символ работы всей команды — от механиков до инженеров.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card-side" data-category="classic">
+                <img src="./foto/i (10).webp" alt="Кубок Стэнли">
+                <div class="card-content">
+                    <span class="card-category">КЛАССИКА</span>
+                    <h3>Кубок Стэнли</h3>
+                    <p>Самый старый клубный трофей Северной Америки: более 15 кг серебра и длинный список имён победителей.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-card" data-category="modern">
+                <img src="./foto/i0.webp" alt="Кубок мира ФИФА">
+                <div class="card-content">
+                    <span class="card-category">СОВРЕМЕННЫЕ</span>
+                    <h3>Кубок мира ФИФА</h3>
+                    <p>Переходящая награда чемпионата мира: почти 6 кг золота, две фигуры атлетов и основание из малахита.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card" data-category="classic">
+                <img src="./foto/i (7).webp" alt="Кубок Дэвиса">
+                <div class="card-content">
+                    <span class="card-category">КЛАССИКА</span>
+                    <h3>Кубок Дэвиса</h3>
+                    <p>Командный трофей мужского тенниса: большая серебряная чаша с именами всех участников розыгрыша.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card" data-category="details">
+                <img src="./foto/i (9).webp" alt="Гравировка и таблички">
+                <div class="card-content">
+                    <span class="card-category">ДЕТАЛИ И ФОРМЫ</span>
+                    <h3>Гравировка и таблички</h3>
+                    <p>Имена и даты вырезают на металлических пластинах — каждая табличка добавляет трофею историю.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ДИСЦИПЛИНЫ СЕКЦИЯ -->
+<section id="disciplines" class="disciplines-section">
+    <div class="container">
+        <p class="eyebrow"><i class="fa-solid fa-diamond"></i> УЧЕБНАЯ ПРОГРАММА</p>
+        <h2 class="section-title">Дисциплины специальности</h2>
+        <p class="section-subtitle">Специальность 09.02.07 «Информационные системы и программирование» — фундамент из алгоритмов, математики и практики: от первой строчки кода до готового программного продукта.</p>
+
+        <div class="disciplines-stats">
+            <span class="stat-chip"><i class="fa-solid fa-clock"></i> Срок обучения: <strong>3 года 10 месяцев</strong></span>
+            <span class="stat-chip"><i class="fa-solid fa-book"></i> Дисциплин в программе: <strong>40+</strong></span>
+            <span class="stat-chip"><i class="fa-solid fa-cubes"></i> Профессиональных модулей: <strong>PM.01–PM.05</strong></span>
+        </div>
+
+        <div class="disciplines-grid">
+            <div class="discipline-card">
+                <div class="discipline-icon"><i class="fa-solid fa-code"></i></div>
+                <span class="discipline-category">Программирование</span>
+                <h3>Основы алгоритмизации и программирования</h3>
+                <p>Алгоритмы, структуры данных, циклы и функции. Учимся думать как программист и писать чистый код.</p>
+            </div>
+
+            <div class="discipline-card">
+                <div class="discipline-icon"><i class="fa-solid fa-database"></i></div>
+                <span class="discipline-category">Данные</span>
+                <h3>Основы проектирования баз данных</h3>
+                <p>Проектирование реляционных БД, запросы SQL, нормализация, MySQL и PostgreSQL на практике.</p>
+            </div>
+
+            <div class="discipline-card">
+                <div class="discipline-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                <span class="discipline-category">Разработка</span>
+                <h3>Разработка кода информационных систем</h3>
+                <p>Написание программного кода, ООП, работа с файлами и библиотеками, автоматизация задач.</p>
+            </div>
+
+            <div class="discipline-card">
+                <div class="discipline-icon"><i class="fa-solid fa-bug"></i></div>
+                <span class="discipline-category">Качество</span>
+                <h3>Тестирование информационных систем</h3>
+                <p>Виды тестирования, поиск дефектов, написание тест-кейсов и обеспечение качества продукта.</p>
+            </div>
+
+            <div class="discipline-card">
+                <div class="discipline-icon"><i class="fa-solid fa-list-check"></i></div>
+                <span class="discipline-category">Менеджмент</span>
+                <h3>Управление проектами</h3>
+                <p>Agile-подходы, планирование задач, командная разработка и жизненный цикл программного обеспечения.</p>
+            </div>
+
+            <div class="discipline-card">
+                <div class="discipline-icon"><i class="fa-solid fa-server"></i></div>
+                <span class="discipline-category">Системы</span>
+                <h3>Внедрение и поддержка компьютерных систем</h3>
+                <p>Устройство Windows и Linux, командная строка, администрирование и настройка окружения разработки.</p>
+            </div>
+
+            <div class="discipline-card">
+                <div class="discipline-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <span class="discipline-category">Надёжность</span>
+                <h3>Обеспечение качества функционирования систем</h3>
+                <p>Мониторинг работы систем, защита данных, криптография и правила безопасной эксплуатации.</p>
+            </div>
+
+            <div class="discipline-card">
+                <div class="discipline-icon"><i class="fa-solid fa-globe"></i></div>
+                <span class="discipline-category">Веб</span>
+                <h3>Проектирование и разработка веб-приложений</h3>
+                <p>HTML, CSS, JavaScript — верстка и создание интерактивных сайтов. Именно так устроена эта выставка.</p>
+            </div>
+
+            <div class="discipline-card">
+                <div class="discipline-icon"><i class="fa-solid fa-palette"></i></div>
+                <span class="discipline-category">Дизайн</span>
+                <h3>Графический дизайн и мультимедиа</h3>
+                <p>Создание визуального контента, работа с графикой, анимацией и мультимедийными материалами.</p>
+            </div>
+        </div>
+
+        <h3 class="photos-title">Будни специальности в кадрах</h3>
+        <div class="disciplines-photos">
+            <figure class="discipline-photo">
+                <img src="./foto/fff1.webp" alt="Программирование">
+                <figcaption>Программирование: от алгоритма и чистого кода до готового модуля</figcaption>
+            </figure>
+
+            <figure class="discipline-photo">
+                <img src="./foto/fff2.webp" alt="Веб-разработка">
+                <figcaption>Веб-разработка: HTML, CSS, JavaScript — проектирование интерфейсов и сайтов</figcaption>
+            </figure>
+
+            <figure class="discipline-photo">
+                <img src="./foto/fff3.webp" alt="Командные проекты">
+                <figcaption>Командная работа: учебные проекты, Git и совместная разработка ПО</figcaption>
+            </figure>
+        </div>
+    </div>
+</section>
+
+<!-- О ПРОЕКТЕ СЕКЦИЯ -->
+<section id="about" class="about-section">
+    <div class="container">
+        <div class="about-layout">
+            <div class="about-content">
+                <p class="eyebrow"><i class="fa-solid fa-diamond"></i> О ПРОЕКТЕ</p>
+                <h2>О выставке и цифровой модели</h2>
+                <p>Цель проекта — показать, как спортивный трофей превращается в объект цифровой экспозиции. В работе соединены статичная и анимированная 3D-модели, адаптивная вёрстка и тёмная благородная тема с золотыми акцентами.</p>
+                <p>Особое внимание уделено мобильным устройствам: сцена просмотрщика компактна, элементы управления не перекрывают модель, а навигация не создаёт горизонтальной прокрутки на любой ширине экрана.</p>
+
+                <div class="about-features">
+                    <div class="about-feature">
+                        <div class="about-feature-icon"><i class="fa-solid fa-cube"></i></div>
+                        <p>Статичная и анимированная модели в формате GLB для веб-просмотра без плагинов</p>
+                    </div>
+                    <div class="about-feature">
+                        <div class="about-feature-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                        <p>Адаптивная вёрстка и доступность: плавная прокрутка, видимый фокус и учёт prefers-reduced-motion</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-visual">
+                <div class="about-image">
+                    <img src="./foto/фото кубка.png" alt="3D-модель кубка">
+                </div>
+                <div class="about-image-caption">
+                    Работа над 3D-моделью: построение геометрии, настройка материалов и презентация трофея.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const viewer = document.getElementById('trophyViewer');
+    const video = document.getElementById('trophyVideo');
+    const tabs = document.querySelectorAll('.model-tab');
+    const modelName = document.getElementById('modelName');
+    const animControls = document.getElementById('animControls');
+    const camReset = document.getElementById('camReset');
+    const camRotate = document.getElementById('camRotate');
+    const camZoomIn = document.getElementById('camZoomIn');
+    const camZoomOut = document.getElementById('camZoomOut');
+    const animToggle = document.getElementById('animToggle');
+    const animIcon = document.getElementById('animIcon');
+    const animStop = document.getElementById('animStop');
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    const defaultOrbit = '35deg 75deg 105%';
+    const defaultFov = '30deg';
+    let isPlaying = false;
+
+    // Переключение между моделью и видео-анимацией
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('is-active'));
+            tab.classList.add('is-active');
+            const target = tab.dataset.tab;
+            
+            if (target === 'trophy1') {
+                // Показываем модель, скрываем видео
+                viewer.classList.remove('is-hidden-video');
+                video.classList.remove('is-visible');
+                video.pause();
+                isPlaying = false;
+                animIcon.className = 'fa-solid fa-play';
+                animToggle.classList.remove('is-playing');
+                animToggle.setAttribute('aria-pressed', 'false');
+                modelName.textContent = 'Модель кубка';
+                animControls.classList.add('is-hidden');
+            } else if (target === 'trophy2') {
+                // Показываем видео, скрываем модель
+                viewer.classList.add('is-hidden-video');
+                video.classList.add('is-visible');
+                modelName.textContent = 'Анимация кубка';
+                animControls.classList.remove('is-hidden');
+            }
+            viewer.cameraOrbit = defaultOrbit;
+            viewer.fieldOfView = defaultFov;
+        });
+    });
+
+    camReset.addEventListener('click', () => {
+        viewer.cameraOrbit = defaultOrbit;
+        viewer.fieldOfView = defaultFov;
+    });
+
+    camRotate.addEventListener('click', (e) => {
+        const isPressed = e.currentTarget.getAttribute('aria-pressed') === 'true';
+        e.currentTarget.setAttribute('aria-pressed', !isPressed);
+        viewer.autoRotate = !isPressed;
+    });
+
+    camZoomIn.addEventListener('click', () => {
+        let fov = parseFloat(viewer.fieldOfView) || 30;
+        fov = Math.max(20, fov - 5);
+        viewer.fieldOfView = `${fov}deg`;
+    });
+
+    camZoomOut.addEventListener('click', () => {
+        let fov = parseFloat(viewer.fieldOfView) || 30;
+        fov = Math.min(45, fov + 5);
+        viewer.fieldOfView = `${fov}deg`;
+    });
+
+    // Кнопка Play/Pause для видео
+    animToggle.addEventListener('click', () => {
+        isPlaying = !isPlaying;
+        if (isPlaying) {
+            video.play();
+            animIcon.className = 'fa-solid fa-pause';
+            animToggle.classList.add('is-playing');
+            animToggle.setAttribute('aria-pressed', 'true');
+        } else {
+            video.pause();
+            animIcon.className = 'fa-solid fa-play';
+            animToggle.classList.remove('is-playing');
+            animToggle.setAttribute('aria-pressed', 'false');
+        }
+    });
+
+    // Кнопка Выкл (Stop) — останавливает видео и сбрасывает на начало
+    animStop.addEventListener('click', () => {
+        video.pause();
+        video.currentTime = 0;
+        isPlaying = false;
+        animIcon.className = 'fa-solid fa-play';
+        animToggle.classList.remove('is-playing');
+        animToggle.setAttribute('aria-pressed', 'false');
+    });
+
+    navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+    });
+
+    viewer.addEventListener('error', () => {
+        document.getElementById('modelFallback').classList.remove('is-hidden');
+        document.getElementById('modelStatusText').textContent = 'Ошибка загрузки';
+    });
+    viewer.addEventListener('load', () => {
+        document.getElementById('modelFallback').classList.add('is-hidden');
+        document.getElementById('modelStatusText').textContent = 'Модель готова';
+    });
+
+    const galleryTabs = document.querySelectorAll('.gallery-tab');
+    const galleryItems = document.querySelectorAll('[data-category]');
+
+    galleryTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            galleryTabs.forEach(t => t.classList.remove('is-active'));
+            tab.classList.add('is-active');
+            const filter = tab.dataset.filter;
+            galleryItems.forEach(item => {
+                if (filter === 'all' || item.dataset.category === filter) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+</script>
+
+</body>
+</html>
