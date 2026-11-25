@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Трофейный зал · Интерактивная выставка</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #d4af37;
+            --primary-hover: #e5c14a;
+            --bg: #0a0e14;
+            --bg-card: #151a23;
+            --bg-card-2: #1a2030;
+            --border: #2a3142;
+            --text: #ffffff;
+            --text-muted: #8b95a8;
+            --text-faint: #5a6478;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== НАВИГАЦИЯ ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), #b8941f);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #000;
+        }
+
+        .logo-text h2 {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .logo-text p {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text);
+        }
+
+        .nav-link-active {
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 0.6rem 1.5rem;
+            border-radius: 2rem;
+            transition: all 0.2s;
+        }
+
+        .nav-link-active:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* ===== HERO СЕКЦИЯ ===== */
+        .hero-section {
+            position: relative;
+            padding: 8rem 0 4rem;
+            overflow: hidden;
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 600px;
+            background: radial-gradient(ellipse, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .eyebrow {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .eyebrow i {
+            font-size: 0.6rem;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        .text-gold-italic {
+            color: var(--primary);
+            font-style: italic;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-gold,
+        .btn-outline {
+            padding: 1rem 2rem;
+            border-radius: 3rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--primary), #b8941f);
+            color: #000;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-outline {
+            border-color: var(--border);
+            color: var(--text);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* ===== PROJECT BADGE ===== */
+        .project-badge {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+        }
+
+        .project-badge img {
+            width: 72px;
+            height: 72px;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            background: #2a5fa8;
+        }
+
+        .badge-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .badge-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .badge-description {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-faint);
+        }
+
+        /* ===== MODEL CARD ===== */
+        .model-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+
+        .model-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 2rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-card-2);
+        }
+
+        .model-tabs {
+            display: flex;
+            gap: 0.25rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.4rem;
+            border-radius: 3rem;
+        }
+
+        .model-tab {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.7rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 2rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-body);
+        }
+
+        .model-tab:hover {
+            color: var(--text);
+        }
+
+        .model-tab.is-active {
+            background: linear-gradient(135deg, var(--primary), #b8941f);
+            color: #000;
+        }
+
+        .model-badge-label {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--primary);
+            padding: 0.5rem 1.25rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .model-stage {
+            position: relative;
+            padding: 2rem;
+            min-height: 600px;
+            background: #0d1117;
+        }
+
+        .model-viewer {
+            width: 100%;
+            height: 550px;
+            background: #000;
+            border-radius: 1rem;
+        }
+
+        .model-controls {
+            position: absolute;
+            top: 3rem;
+            right: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .model-anim-controls {
+            position: absolute;
+            bottom: 5rem;
+            right: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .ctrl-btn {
+            width: 48px;
+            height: 48px;
+            background: rgba(21, 26, 35, 0.95);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            font-size: 1.1rem;
+        }
+
+        .ctrl-btn:hover {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .model-hint {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            backdrop-filter: blur(10px);
+        }
+
+        .model-fallback {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .model-fallback i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .model-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            gap: 2rem;
+            flex-wrap: wrap;
+            background: var(--bg-card-2);
+        }
+
+        .model-info h2 {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .model-description {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            max-width: 500px;
+        }
+
+        .model-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4ade80;
+        }
+
+        .model-downloads {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* ===== ИСТОРИЯ СЕКЦИЯ ===== */
+        .history-section {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin-bottom: 4rem;
+        }
+
+        .history-grid {
+            display: grid;
+            grid-template-columns: 1fr 0.8fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding: 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            transition: all 0.3s;
+        }
+
+        .timeline-item:hover {
+            border-color: var(--primary);
+            transform: translateX(10px);
+        }
+
+        .timeline-icon {
+            width: 56px;
+            height: 56px;
+            min-width: 56px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-era {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content h3 {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .timeline-content p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        .history-image img {
+            width: 100%;
+            border-radius: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        /* ===== УТИЛИТЫ ===== */
+        .is-hidden {
+            display: none !important;
+        }
+
+        /* ===== АДАПТИВНОСТЬ ===== */
+        @media (max-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .history-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg-card);
+                flex-direction: column;
+                padding: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .model-controls,
+            .model-anim-controls {
+                top: auto;
+                bottom: 5rem;
+                right: 2rem;
+                flex-direction: row;
+            }
+
+            .model-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .model-downloads {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- НАВИГАЦИЯ -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="#" class="nav-logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+            <div class="logo-text">
+                <h2>Трофейный зал</h2>
+                <p>ИНТЕРАКТИВНАЯ ВЫСТАВКА</p>
+            </div>
+        </a>
+        
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="#model" class="nav-link">3D-модель</a></li>
+            <li><a href="#history" class="nav-link">История</a></li>
+            <li><a href="#manufacturing" class="nav-link">Изготовление</a></li>
+            <li><a href="#gallery" class="nav-link">Галерея</a></li>
+            <li><a href="#about" class="nav-link nav-link-active">О проекте</a></li>
+        </ul>
+        
+        <button class="nav-toggle" id="navToggle" aria-label="Меню">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- HERO СЕКЦИЯ -->
+<section id="model" class="hero-section">
+    <div class="hero-glow"></div>
+    <div class="container">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <p class="eyebrow">
+                    <i class="fa-solid fa-diamond"></i>
+                    ИНТЕРАКТИВНАЯ ВЫСТАВКА · 3D-ЭКСПОЗИЦИЯ
+                </p>
+                <h1 class="hero-title">
+                    Спортивные <span class="text-gold-italic">кубки</span>
+                </h1>
+                <p class="hero-description">
+                    Рассмотрите форму награды со всех сторон: вращайте модель, приближайте детали и переключайтесь между статичной версией кубка и анимированной, чтобы увидеть, как оживают гравировка и металл.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#model" class="btn-gold">
+                        <i class="fa-solid fa-cube"></i>
+                        Открыть 3D-просмотрщик
+                    </a>
+                    <a href="#gallery" class="btn-outline">
+                        Перейти к галерее
+                    </a>
+                </div>
+            </div>
+
+            <div class="project-badge">
+                <img src="https://files.cdn-files-a.com/uploads/12706115/100_6b069144b72ff.png?ratio=1:1&format=avif" 
+                     alt="Логотип специальности">
+                <p class="badge-label">УЧЕБНЫЙ ПРОЕКТ</p>
+                <p class="badge-text">
+                    Специальность «Информационные системы и программирование»<br>
+                    Сделал: Болтенков Денис Павлович
+                </p>
+                <p class="badge-description">
+                    Цель работы — показать, как спортивный трофей превращается в объект цифровой экспозиции.
+                </p>
+            </div>
+        </div>
+
+        <!-- 3D МОДЕЛЬ -->
+        <div class="model-card">
+            <div class="model-toolbar">
+                <div class="model-tabs" role="tablist">
+                    <button type="button" class="model-tab is-active" role="tab" data-tab="trophy1">
+                        <i class="fa-solid fa-trophy"></i>
+                        Кубок I · классика
+                    </button>
+                    <button type="button" class="model-tab" role="tab" data-tab="trophy2">
+                        <i class="fa-solid fa-cube"></i>
+                        Кубок II · анимация
+                    </button>
+                </div>
+                <span class="model-badge-label">3D · GLB</span>
+            </div>
+
+            <div class="model-stage">
+                <model-viewer id="trophyViewer" 
+                              class="model-viewer" 
+                              src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+                              poster="https://files.cdn-files-a.com/admin/system_photos_stock/normal_6979b38c8ce09.jpg?ratio=16:9&format=avif"
+                              alt="Интерактивная 3D-модель спортивного кубка" 
+                              camera-controls 
+                              touch-action="pan-y" 
+                              loading="eager" 
+                              camera-orbit="35deg 75deg 105%" 
+                              min-field-of-view="20deg" 
+                              max-field-of-view="45deg" 
+                              shadow-intensity="1" 
+                              exposure="1.1" 
+                              environment-image="neutral" 
+                              interaction-prompt="none">
+                </model-viewer>
+
+                <div class="model-controls">
+                    <button type="button" class="ctrl-btn" id="camReset" aria-label="Сбросить вид">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                    </button>
+                    <button type="button" class="ctrl-btn" id="camRotate" aria-label="Авто-вращение">
+                        <i class="fa-solid fa-arrows-spin"></i>
+                    </button>
+                    <button type="button" class="ctrl-btn" id="camZoomIn" aria-label="Приблизить">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i>
+                    </button>
+                    <button type="button" class="ctrl-btn" id="camZoomOut" aria-label="Отдалить">
+                        <i class="fa-solid fa-magnifying-glass-minus"></i>
+                    </button>
+                </div>
+
+                <div class="model-anim-controls is-hidden" id="animControls">
+                    <button type="button" class="ctrl-btn" id="animToggle" aria-label="Воспроизвести анимацию">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <button type="button" class="ctrl-btn" id="animReplay" aria-label="Перезапустить анимацию">
+                        <i class="fa-solid fa-repeat"></i>
+                    </button>
+                </div>
+
+                <p class="model-hint">
+                    <i class="fa-solid fa-hand-pointer"></i>
+                    Тяните для вращения · щипок/колёсико для масштаба · двойной клик для сброса
+                </p>
+
+                <div class="model-fallback is-hidden" id="modelFallback">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p>Модель временно недоступна. Проверьте интернет.</p>
+                </div>
+            </div>
+
+            <div class="model-footer">
+                <div class="model-info">
+                    <h2 id="modelName">Кубок I · классическая чаша</h2>
+                    <p class="model-description">
+                        Статичная и анимированная версии подгружаются отдельно — файл .glb легко заменить на собственный.
+                    </p>
+                    <p class="model-status">
+                        <span class="status-dot"></span>
+                        <span id="modelStatusText">Модель готова</span>
+                    </p>
+                </div>
+                <div class="model-downloads">
+                    <a href="https://modelviewer.dev/shared-assets/models/Astronaut.glb" class="btn-outline" target="_blank" rel="noopener">
+                        <i class="fa-solid fa-download"></i>
+                        Скачать кубок I
+                    </a>
+                    <a href="https://modelviewer.dev/shared-assets/models/RobotExpressive.glb" class="btn-outline" target="_blank" rel="noopener">
+                        <i class="fa-solid fa-download"></i>
+                        Скачать кубок II
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ИСТОРИЯ -->
+<section id="history" class="history-section">
+    <div class="container">
+        <p class="eyebrow">
+            <i class="fa-solid fa-diamond"></i>
+            ИСТОРИЯ
+        </p>
+        <h2 class="section-title">История спортивных кубков</h2>
+        <p class="section-subtitle">
+            Форма трофея менялась вместе с представлениями о славе — от античных сосудов и венков до современных переходящих кубков и цифровых моделей.
+        </p>
+
+        <div class="history-grid">
+            <div class="history-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <p class="timeline-era">АНТИЧНОСТЬ</p>
+                        <h3>Амфоры и венки победителей</h3>
+                        <p>Победителей древних игр награждали расписными амфорами с оливковым маслом и лавровыми венками — первый в истории прообраз спортивной награды.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fa-solid fa-gem"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <p class="timeline-era">XVIII-XIX ВЕКА</p>
+                        <h3>Серебряные и позолоченные чаши</h3>
+                        <p>Рыцарские турниры и цеховые состязания получили массивные серебряные кубки с ручками, резьбой и гравированными табличками для имён.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <p class="timeline-era">XX ВЕК</p>
+                        <h3>Переходящие кубки и мировые трофеи</h3>
+                        <p>Спорт становится глобальным, а награды — узнаваемыми: золото, литьё по восковой модели и точная гравировка имён чемпионов.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fa-solid fa-cube"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <p class="timeline-era">СОВРЕМЕННОСТЬ</p>
+                        <h3>Цифровые 3D-модели и параметрический дизайн</h3>
+                        <p>Современные трофеи создаются в CAD-системах, печатаются на 3D-принтерах и существуют как интерактивные цифровые экспонаты.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="history-image">
+                <img src="https://files.cdn-files-a.com/admin/system_photos_stock/normal_6979b38c8ce09.jpg?ratio=16:9&format=avif" 
+                     alt="Исторический кубок">
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const viewer = document.getElementById('trophyViewer');
+    const tabs = document.querySelectorAll('.model-tab');
+    const modelName = document.getElementById('modelName');
+    const animControls = document.getElementById('animControls');
+    
+    const camReset = document.getElementById('camReset');
+    const camRotate = document.getElementById('camRotate');
+    const camZoomIn = document.getElementById('camZoomIn');
+    const camZoomOut = document.getElementById('camZoomOut');
+    
+    const animToggle = document.getElementById('animToggle');
+    const animReplay = document.getElementById('animReplay');
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    const defaultOrbit = '35deg 75deg 105%';
+    const defaultFov = '30deg';
+
+    // Переключение вкладок
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('is-active'));
+            tab.classList.add('is-active');
+
+            const target = tab.dataset.tab;
+            
+            if (target === 'trophy1') {
+                viewer.src = 'https://modelviewer.dev/shared-assets/models/Astronaut.glb';
+                modelName.textContent = 'Кубок I · классическая чаша';
+                animControls.classList.add('is-hidden');
+            } else if (target === 'trophy2') {
+                viewer.src = 'https://modelviewer.dev/shared-assets/models/RobotExpressive.glb';
+                modelName.textContent = 'Кубок II · анимированная модель';
+                animControls.classList.remove('is-hidden');
+            }
+            
+            viewer.cameraOrbit = defaultOrbit;
+            viewer.fieldOfView = defaultFov;
+        });
+    });
+
+    // Управление камерой
+    camReset.addEventListener('click', () => {
+        viewer.cameraOrbit = defaultOrbit;
+        viewer.fieldOfView = defaultFov;
+    });
+
+    camRotate.addEventListener('click', (e) => {
+        const isPressed = e.currentTarget.getAttribute('aria-pressed') === 'true';
+        e.currentTarget.setAttribute('aria-pressed', !isPressed);
+        viewer.autoRotate = !isPressed;
+    });
+
+    camZoomIn.addEventListener('click', () => {
+        let fov = parseFloat(viewer.fieldOfView) || 30;
+        fov = Math.max(20, fov - 5); 
+        viewer.fieldOfView = `${fov}deg`;
+    });
+
+    camZoomOut.addEventListener('click', () => {
+        let fov = parseFloat(viewer.fieldOfView) || 30;
+        fov = Math.min(45, fov + 5); 
+        viewer.fieldOfView = `${fov}deg`;
+    });
+
+    // Анимация
+    animToggle.addEventListener('click', (e) => {
+        const isPressed = e.currentTarget.getAttribute('aria-pressed') === 'true';
+        e.currentTarget.setAttribute('aria-pressed', !isPressed);
+        
+        if (isPressed) {
+            viewer.pause();
+        } else {
+            viewer.play();
+        }
+    });
+
+    animReplay.addEventListener('click', () => {
+        viewer.currentTime = 0;
+        viewer.play();
+    });
+
+    // Мобильное меню
+    navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+    });
+
+    // Обработка ошибок
+    viewer.addEventListener('error', () => {
+        document.getElementById('modelFallback').classList.remove('is-hidden');
+        document.getElementById('modelStatusText').textContent = 'Ошибка загрузки';
+    });
+    
+    viewer.addEventListener('load', () => {
+        document.getElementById('modelFallback').classList.add('is-hidden');
+        document.getElementById('modelStatusText').textContent = 'Модель готова';
+    });
+});
+</script>
+
+</body>
+</html>
